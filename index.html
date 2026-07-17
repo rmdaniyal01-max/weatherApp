@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Weather App</title>
+        <style>
+            body{
+                font-family: Arial, Helvetica, sans-serif;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0px;
+                padding: 10px;
+                background: linear-gradient(135deg,#4facfe,#00f2fe);
+                height: 100vh;
+                transition: background-color 0.8s ease;
+            }
+            #weatherCard{
+                display: flex;
+                flex-direction: column;
+                width: 350px;
+                background: linear-gradient(to top,#4facfe,#00f2fe);
+                border:2px solid #4facfe;
+                backdrop-filter: blur(15px);
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 15px 40px rgba(0,0,0,.2);
+                text-align: center;
+                animation: fadeIn 1s ease ;
+                transition: 
+                    transform .3s ease,
+                    background-color .3s ease;
+            }
+            #weatherCard:hover{
+                transform: translateY(-5px);
+            }
+            .search-box{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            #cityInput{
+                flex: 1;
+                padding: 12px;
+                border: none;
+                outline: none;
+                border-radius: 10px;
+            }
+            #searchButton{
+                background: blue;
+                color: white;
+                border: none;
+                border-radius: 10px;
+                padding: 12px 20px;
+                cursor: pointer;
+                transition: .3s;
+            }
+            #searchButton:active{
+                transform: scale(.98);
+            }
+            
+            #container h2{
+                font-size: 3rem;
+                margin: 20px 0 10px;
+                color: #222;
+                animation: fadeIn 1s ease ;
+            }
+            #container p{
+                background-color: rgba(255, 255, 255, 0.192);
+                backdrop-filter: blur(10px);
+                padding: 5px 10px;
+                border-radius: 5px;
+                font-size: 20px;
+                margin: 20px 0px;
+                animation: fadeIn 1s ease .5s backwards ;
+            }
+            @keyframes fadeIn{
+                from{
+                    opacity: 0;
+                    transform: translateY(15px);
+                }
+                to{
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+        </style>
+    </head>
+
+    <body>
+        <div id="weatherCard">
+            <div class="search-box">
+                <h1>⛅ Weather App</h1>
+                <input type="search" id="cityInput" placeholder="Enter City">
+                <button id="searchButton">Search</button>
+                <div id="container"></div>
+            </div>
+        </div>
+        <script src="weatherApp.js"></script>
+    </body>
+</html>
