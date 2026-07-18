@@ -1,6 +1,6 @@
 let cityInput = document.getElementById("cityInput");
 let searchButton = document.getElementById("searchButton");
-let weather = document.getElementById("container");
+let weather = document.getElementById("weather");
 let weatherCard = document.getElementById("weatherCard");
 
 
@@ -23,8 +23,9 @@ async function getLocation(city) {
     let location = data.results[0];
 
     let weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location
-        .latitude}&longitude=${location.longitude}&current=temperature_2m,apparent_temperature,wind_speed_10m,weather_code`);
+        .latitude}&longitude=${location.longitude}&current=temperature_2m,apparent_temperature,wind_speed_10m,weather_code,relative_humidity_2m&daily=sunrise,sunset&timezone=auto`);
     let weatherData = await weatherResponse.json();
+    console.log(weatherData)
 
     let weatherCode = weatherData.current.weather_code;
     let weatherIcon = "";
@@ -85,10 +86,28 @@ async function getLocation(city) {
     weather.innerHTML = `
     <div class="weather-icon">${weatherIcon}</div>
     <h2>${location.name}</h2>
+    <h2>${location.country}</h2>
     <p class="date">${date}</p>
-    <p>Temperature: ${weatherData.current.temperature_2m} °C </p>
-    <p class="feel">Real feel: ${weatherData.current.apparent_temperature} °C </p>
-    <p>Wind Speed: ${weatherData.current.wind_speed_10m} Km/h</p>`;
+    <p>Sunrise: ${weatherData.daily.sunrise[0]}</p>
+    <p>Sunset: ${weatherData.daily.sunset[0]}</p>
+    <div class="weather-details">
+        <div class="detail-card">
+            <h3>Temperature</h3>
+            <p>${weatherData.current.temperature_2m} °C </p>
+        </div>
+        <div class="detail-card">
+            <h3>Real Feel</h3>
+            <p>${weatherData.current.apparent_temperature} °C </p>
+        </div>
+        <div class="detail-card">
+            <h3>Wind Speed</h3>
+            <p>${weatherData.current.wind_speed_10m} Km/h</p>
+        </div>
+        <div class="detail-card">
+            <h3>Humidity</h3>
+            <p>${weatherData.current.relative_humidity_2m} %</p>
+        </div>
+    </div>`;
 
 }
 
