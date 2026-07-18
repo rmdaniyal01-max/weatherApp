@@ -3,8 +3,11 @@ let searchButton = document.getElementById("searchButton");
 let weather = document.getElementById("weather");
 let weatherCard = document.getElementById("weatherCard");
 
+cityInput.focus();
 
 async function getLocation(city) {
+    
+    cityInput.value = "";
 
     if (city === ""){
         weather.innerHTML = `<p> Please enter a City</p>`
@@ -15,7 +18,7 @@ async function getLocation(city) {
 
     let response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`);
     let data = await response.json();
-
+    
     if(!data.results || data.results.length === 0){
         weather.innerHTML = `<p>City not found</p>`
         return;
@@ -83,13 +86,30 @@ async function getLocation(city) {
         month:"long"
     })
 
+    let time = today.toLocaleTimeString({
+        hour12:"2-digit",
+        minute:"2-digit"
+    })
+
+    let sunrise = new Date(weatherData.daily.sunrise[0]).toLocaleTimeString([],{
+        hour:"2-digit",
+        minute:"2-digit"
+    });
+    let sunset = new Date(weatherData.daily.sunset[0]).toLocaleTimeString([],{
+        hour:"2-digit",
+        minute:"2-digit"
+    });
+
+    let updatedTime = new Date().toLocaleTimeString({
+        hour:"2-digit",
+        minute:"2-digit"
+    })
+
     weather.innerHTML = `
     <div class="weather-icon">${weatherIcon}</div>
     <h2>${location.name}</h2>
     <h5>${location.country}</h5>
-    <p class="date">${date}</p>
-    <p>Sunrise: ${weatherData.daily.sunrise [0]}</p>
-    <p>Sunset: ${weatherData.daily.sunset [0]}</p>
+    <p>Last Updated ${updatedTime}
     <div class="weather-details">
         <div class="detail-card">
             <h3>Temperature</h3>
@@ -107,15 +127,33 @@ async function getLocation(city) {
             <h3>Humidity</h3>
             <p>${weatherData.current.relative_humidity_2m} %</p>
         </div>
+        
+    </div>
+    <div class="other-details">
+        <div class="date-time">
+            <h4>Date</h4>
+            <p>${date}</p>
+        </div>
+        <div class="date-time">
+            <h4>Time</h4>
+            <p>${time}</p>
+        </div>
+        <div class="date-time">
+            <h4>Sunrise</h4>
+            <p>${sunrise}</p>
+        </div>
+        <div class="date-time">
+            <h4>Sunset</h4>
+            <p>${sunset}</p>
+        </div>
     </div>`;
-
 }
 
 searchButton.addEventListener("click", () => {
     let city = cityInput.value.trim();
-    getLocation(city)
+    getLocation(city);
+    
 });
-
 cityInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter"){
         searchButton.click();

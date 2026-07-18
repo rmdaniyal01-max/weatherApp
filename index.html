@@ -85,10 +85,7 @@
                 color: rgba(255,255,255,.8);
                 margin-top: 10px
             }
-            .date{
-                color: rgba(255,255,255,.8);
-                font-size: 15px;
-            }
+            
             .weather-details{
                 display: grid;
                 grid-template-columns: repeat(2,1fr);
@@ -101,7 +98,7 @@
                 backdrop-filter: blur(10px);
                 border-radius: 15px;
                 padding: 15px;
-                transition: .3s;
+                transition: .3s ease;
             }
             .detail-card:hover{
                 transform: translateY(-5px);
@@ -121,6 +118,26 @@
                 font-weight: bold;
                 margin: 20px 0px;
                 animation: fadeIn 1s ease .5s backwards ;
+            }
+            .other-details{
+                display: grid;
+                grid-template-columns: repeat(2,1fr);
+                background-color: rgba(255, 255, 255, 0.192);
+                border:1px dashed #00f2fe;
+                backdrop-filter: blur(10px);
+                padding: 5px 10px;
+                margin-top: 10px;
+                border-radius: 10px;
+                animation: fadeIn 1s ease .8s;
+                transition: .3s ease;
+            }
+            .other-details:hover{
+                transform: translateY(-5px);
+            }
+
+            .other-details p{
+                color: rgba(255,255,255,.8);
+                font-size: 15px;
             }
             
             @keyframes fadeIn{
