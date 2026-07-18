@@ -6,7 +6,30 @@ let weatherCard = document.getElementById("weatherCard");
 
 cityInput.focus();
 
-async function getLocation(city) {
+searchButton.addEventListener("click", () => {
+    let city = cityInput.value.trim();
+    getLocation(city);
+    
+});
+
+locationButton.addEventListener("click", () => {
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition((position) => {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+        })
+    }else{
+        alert("geolocation is not supported");
+    }
+})
+
+cityInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter"){
+        searchButton.click();
+    };
+});
+
+async function getLocation(city){
     
     cityInput.value = "";
 
@@ -24,7 +47,7 @@ async function getLocation(city) {
         weather.innerHTML = `<p>City not found</p>`
         return;
     }
-    let location = data.results[0] || position.results;
+    let location = data.results[0];
 
     let weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location
         .latitude}&longitude=${location.longitude}&current=temperature_2m,apparent_temperature,wind_speed_10m,weather_code,relative_humidity_2m&daily=sunrise,sunset&timezone=auto`);
@@ -161,27 +184,3 @@ async function getLocation(city) {
         </div>
     </div>`;
 }
-
-searchButton.addEventListener("click", () => {
-    let city = cityInput.value.trim();
-    getLocation(city);
-    
-});
-
-locationButton.addEventListener("click", () => {
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition((position) => {
-            let latitude = position.coords.latitude;
-            let longitude = position.coords.longitude;
-        })
-    }else{
-        alert("geolocation is not supported");
-    }
-    getLocation(city);
-})
-
-cityInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter"){
-        searchButton.click();
-    };
-});
