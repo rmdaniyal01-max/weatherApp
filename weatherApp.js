@@ -1,5 +1,6 @@
 let cityInput = document.getElementById("cityInput");
 let searchButton = document.getElementById("searchButton");
+let locationButton = document.getElementById("locationButton");
 let weather = document.getElementById("weather");
 let weatherCard = document.getElementById("weatherCard");
 
@@ -23,7 +24,7 @@ async function getLocation(city) {
         weather.innerHTML = `<p>City not found</p>`
         return;
     }
-    let location = data.results[0];
+    let location = data.results[0] || position.results;
 
     let weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location
         .latitude}&longitude=${location.longitude}&current=temperature_2m,apparent_temperature,wind_speed_10m,weather_code,relative_humidity_2m&daily=sunrise,sunset&timezone=auto`);
@@ -34,22 +35,22 @@ async function getLocation(city) {
     let weatherIcon = "";
 
     if(weatherCode === 0){
-        weatherIcon = "☀";
+        weatherIcon = "☀️";
     }
     else if(weatherCode >= 1 && weatherCode <= 3){
         weatherIcon = "⛅";
     }
     else if(weatherCode >= 51 && weatherCode <= 67){
-        weatherIcon = "🌧";
+        weatherIcon = "🌧️";
     }
     else if(weatherCode >= 71 && weatherCode <= 77){
-        weatherIcon = "❄";
+        weatherIcon = "❄️";
     }
     else if(weatherCode === 95){
-        weatherIcon = "⛈";
+        weatherIcon = "⛈️";
     }
     else{
-        weatherIcon = "🌤";
+        weatherIcon = "🌤️";
     }
 
     if(weatherCode === 0){
@@ -100,16 +101,28 @@ async function getLocation(city) {
         minute:"2-digit"
     });
 
-    let updatedTime = new Date().toLocaleTimeString({
-        hour:"2-digit",
-        minute:"2-digit"
-    })
+    let hour = new Date().getHours();
+
+    let greeting;
+
+    if(hour<12){
+        greeting="🌅 Good Morning";
+    }
+    else if(hour<18){
+        greeting="☀️ Good Afternoon";
+    }
+    else if(hour >18 && hour <22){
+        greeting="🌙 Good Evening";
+    }
+    else{
+        greetings="🌙 Good Night"
+    }
 
     weather.innerHTML = `
     <div class="weather-icon">${weatherIcon}</div>
-    <h2>${location.name}</h2>
-    <h5>${location.country}</h5>
-    <p>Last Updated ${updatedTime}
+    <h6>${greeting}</h6>
+    <h2>${location.name},<h5>${location.country}</h5></h2>
+    
     <div class="weather-details">
         <div class="detail-card">
             <h3>Temperature</h3>
@@ -135,7 +148,7 @@ async function getLocation(city) {
             <p>${date}</p>
         </div>
         <div class="date-time">
-            <h4>Time</h4>
+            <h4>Last update</h4>
             <p>${time}</p>
         </div>
         <div class="date-time">
@@ -154,6 +167,19 @@ searchButton.addEventListener("click", () => {
     getLocation(city);
     
 });
+
+locationButton.addEventListener("click", () => {
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition((position) => {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+        })
+    }else{
+        alert("geolocation is not supported");
+    }
+    getLocation(city);
+})
+
 cityInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter"){
         searchButton.click();

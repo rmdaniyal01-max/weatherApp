@@ -45,9 +45,10 @@
                 padding: 12px;
                 border: none;
                 outline: none;
-                border-radius: 10px;
+                border-radius: 5px;
             }
             #searchButton{
+                display: inline;
                 background: blue;
                 color: white;
                 border: none;
@@ -59,6 +60,20 @@
             #searchButton:active{
                 transform: scale(.98);
             }
+            #locationButton{
+                display: inline;
+                background: blue;
+                color: white;
+                border: none;
+                border-radius: 10px;
+                padding: 12px 20px;
+                cursor: pointer;
+                transition: .3s;
+            }
+            #locationButton:active{
+                transform: scale(.98);
+            }
+
             .weather-icon{
                 font-size: 80px;
                 margin-bottom: 15px;
@@ -75,13 +90,18 @@
             #weather{
                 animation: fadeIn 1s ease ;
             }
+            #weather p{
+                animation: fadeIn 1s ease ;
+            }
             #weather h2{
+                display: inline;
                 font-size: 3rem;
                 margin: 20px 0 10px;
                 color: #222;
                 animation: fadeIn 1s ease ;
             }
             #weather h5{
+                display: inline;
                 color: rgba(255,255,255,.8);
                 margin-top: 10px
             }
@@ -159,7 +179,8 @@
             <div class="search-box">
                 <h1>⛅ Weather App</h1>
                 <input type="search" id="cityInput" placeholder="Enter City">
-                <button id="searchButton">Search</button>
+                <button id="searchButton">🔍 Search</button>
+                <button id="locationButton">📍 Use my location</button>
                 <div id="weather"></div>
             </div>
         </div>
