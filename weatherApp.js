@@ -86,10 +86,10 @@ async function getLocation(city) {
     weather.innerHTML = `
     <div class="weather-icon">${weatherIcon}</div>
     <h2>${location.name}</h2>
-    <h2>${location.country}</h2>
+    <h5>${location.country}</h5>
     <p class="date">${date}</p>
-    <p>Sunrise: ${weatherData.daily.sunrise[0]}</p>
-    <p>Sunset: ${weatherData.daily.sunset[0]}</p>
+    <p>Sunrise: ${weatherData.daily.sunrise [0]}</p>
+    <p>Sunset: ${weatherData.daily.sunset [0]}</p>
     <div class="weather-details">
         <div class="detail-card">
             <h3>Temperature</h3>
