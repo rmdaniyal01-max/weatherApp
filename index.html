@@ -159,6 +159,37 @@
                 color: rgba(255,255,255,.8);
                 font-size: 15px;
             }
+
+            #forecast{
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+                overflow-x: auto;
+                padding: 10px 5px;
+            }
+            #forecast::-webkit-scrollbar{
+                display: none;
+            }
+            .forecast-card{
+                min-width: 90px;
+                padding: 12px;
+                border-radius: 10px;
+                background: rgba(255,255,255,.2);
+                backdrop-filter: blur(10px);
+                color: white;
+                transition: .3s;
+            }
+            .forecast-card:hover{
+                transform: translateY(-8px);
+            }
+            .forcast-icon{
+                font-size: 35px;
+                margin: 10px 0px;
+            }
+            .today{
+                border: 2px solid white;
+                transform: scale(1.02)
+            }
             
             @keyframes fadeIn{
                 from{

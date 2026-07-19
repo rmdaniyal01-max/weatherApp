@@ -20,13 +20,44 @@ _code,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto`);
     let forecastHTML ="";
 
     for(let i = 0; i < weatherData.daily.time.length; i++){
-        let date = weatherData.daily.time[i];
+        let day = new 
+            Date(weatherData.daily.time[i]).toLocaleDateString("en-Us",{
+                weekday:"short"
+            });
         let maxTemp = weatherData.daily.temperature_2m_max[i];
         let minTemp = weatherData.daily.temperature_2m_min[i];
         let code = weatherData.daily.weather_code[i];
 
+        let icon = ""
+
+        if(code === 0){
+        icon = "☀️";
+        }
+        else if(code >= 1 && code <= 3){
+            icon = "⛅";
+        }
+        else if(code >= 51 && code <= 67){
+            icon = "🌧️";
+        }
+        else if(code >= 71 && code <= 77){
+            icon = "❄️";
+        }
+        else if(code === 95){
+            icon = "⛈️";
+        }
+        else{
+            icon = "🌤️";
+        }
+
+        let activeClass = i === 0 ? "today" : "";
+
         forecastHTML +=`
-        <p>${date} - ${maxTemp}°C / ${minTemp}°C - Code: ${code}`
+        <div class="forecast-card ${activeClass}">
+            <h3>${day}</h3>
+            <div class="forecast-icon">${icon}</div>
+        <p>H: ${maxTemp}℃</p>
+        <p>L: ${minTemp}℃</p>
+        </div>`
     };
 
     forecast.innerHTML = forecastHTML;
