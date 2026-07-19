@@ -6,7 +6,7 @@ let weatherCard = document.getElementById("weatherCard");
 
 cityInput.focus();
 
-async function getWeather(latitude, longitude){
+async function getWeather(latitude, longitude, location = null){
 
     let weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${
         latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,wind_speed_10m,weather_code,relative_humidity_2m&daily=sunrise,sunset&timezone=auto`);
@@ -100,10 +100,18 @@ async function getWeather(latitude, longitude){
         greetings="🌙 Good Night"
     }
 
+    let cityName = "Current Location";
+    let country = "";
+
+    if(location){
+        cityName = location.name;
+        country = location.country;
+    }
+
     weather.innerHTML = `
     <div class="weather-icon">${weatherIcon}</div>
     <h6>${greeting}</h6>
-    <h2>${location.name},<h5>${location.country}</h5></h2>
+    <h2>${cityName},<h5>${country}</h5></h2>
     
     <div class="weather-details">
         <div class="detail-card">
