@@ -1,17 +1,35 @@
 let cityInput = document.getElementById("cityInput");
 let searchButton = document.getElementById("searchButton");
 let locationButton = document.getElementById("locationButton");
-let weather = document.getElementById("weather");
 let weatherCard = document.getElementById("weatherCard");
+let weather = document.getElementById("weather");
+let forecast = document.getElementById("forecast");
 
 cityInput.focus();
 
 async function getWeather(latitude, longitude, location = null){
 
-    let weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${
-        latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,wind_speed_10m,weather_code,relative_humidity_2m&daily=sunrise,sunset&timezone=auto`);
+    let weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude
+    }&current=temperature_2m,apparent_temperature,wind_speed_10m,weather_code,relative_humidity_2m&daily=weather
+_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto`);
+
     let weatherData = await weatherResponse.json();
-    
+
+    console.log(weatherData.daily);
+
+    let forecastHTML ="";
+
+    for(let i = 0; i < weatherData.daily.time.length; i++){
+        let date = weatherData.daily.time[i];
+        let maxTemp = weatherData.daily.temperature_2m_max[i];
+        let minTemp = weatherData.daily.temperature_2m_min[i];
+        let code = weatherData.daily.weather_code[i];
+
+        forecastHTML +=`
+        <p>${date} - ${maxTemp}°C / ${minTemp}°C - Code: ${code}`
+    };
+
+    forecast.innerHTML = forecastHTML;
 
     let weatherCode = weatherData.current.weather_code;
     let weatherIcon = "";
@@ -97,10 +115,10 @@ async function getWeather(latitude, longitude, location = null){
         greeting="🌙 Good Evening";
     }
     else{
-        greetings="🌙 Good Night"
+        greeting="🌕 Good Night"
     }
 
-    let cityName = "Current Location";
+    let cityName = "📍 Current";
     let country = "";
 
     if(location){
