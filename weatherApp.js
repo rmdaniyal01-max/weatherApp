@@ -15,8 +15,6 @@ _code,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto`);
 
     let weatherData = await weatherResponse.json();
 
-    console.log(weatherData.daily);
-
     let forecastHTML ="";
 
     for(let i = 0; i < weatherData.daily.time.length; i++){
